@@ -26,11 +26,11 @@ class World(object):
         Chengdou = City(u"成都",19,[9,4,21], 5696, 2727,u"中華民國",[],47437000)
         Baoding = City(u"保定",20,[1,7,16,15], 5880, 2568,u"中華人民共和國",[],28719000)
         Gueyang = City(u"貴陽",21,[19,4,13,17], 5745, 2773,u"中華民國",[],10174000)
-        ROC = Nation("中華民國",[Nanjing,Hankou,Chungchin
+        ROC = Nation(u"中華民國",[Nanjing,Hankou,Chungchin
                              ,Nantshang,Hangzhou,Changsha
                              ,Guangzhou,Fuzhou,Shanghai,Hefei
                              ,Nanning,Gueyang,Chengdou])
-        PRC = Nation("中華人民共和國",[Peking,Tianjin,Xian ,Zhengzhou,Jinan,Taiyuan,Shuzhou,Baoding])
+        PRC = Nation(u"中華人民共和國",[Peking,Tianjin,Xian ,Zhengzhou,Jinan,Taiyuan,Shuzhou,Baoding])
         NationList = [ROC,PRC]
         Citylist = [Nanjing,Hankou,Chungchin
                              ,Nantshang,Hangzhou,Changsha
@@ -50,7 +50,7 @@ class Nation:
         self.diplomatic = diplomatic
     def calculate_man_money_add(self,man_multiply,money_multiply):
         for cities in self.Citylist:
-            cities.man *= int(1+man_multiply)
+            cities.man = int(cities.man*(1+man_multiply))
             cities.money += int(cities.man * money_multiply * 0.5)
     def declar_war(self,to_nation):
         self.diplomatic = default_data.update({to_nation: 4})
@@ -187,6 +187,10 @@ class Server:
         self.day = time_list[1]
         self.year = time_list[2]
         self.NationList = NationList
+        Citylist = []
+        for Nation in NationList:
+            Citylist.extend(Nation.Citylist)
+        self.Citylist = Citylist
     #-------------------------------------------------------------------------
     # 函數:伺服器座標判斷.
     #-------------------------------------------------------------------------    
@@ -206,8 +210,8 @@ class Server:
             #---------------------------------------------------------------------
             # 計算人口及金錢增加.
             #---------------------------------------------------------------------
-            NationList = self.NationList
-            for nations in NationList:
+            #NationList = self.NationList
+            for nations in self.NationList:
                 nations.calculate_man_money_add(0.00025,0.05)
             #---------------------------------------------------------------------
             # 計算攻擊.

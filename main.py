@@ -23,6 +23,11 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 BackGround = Background('PDFtoJPG.me-1 (1).jpg', [0,0])
 #-------------------------------------------------------------------------
+# 函數:回傳螢幕座標
+#-------------------------------------------------------------------------
+def Retern_Value_is_Screen_x_y_Position(x,y):
+    return cities.pos_x+BackGround.rect.left,cities.pos_y+BackGround.rect.top
+#-------------------------------------------------------------------------
 # 函數:印城市線條
 #-------------------------------------------------------------------------
 def printLinesOfCities():
@@ -123,6 +128,7 @@ while running:
     #---------------------------------------------------------------------    
     # 同步伺服器資料
     #---------------------------------------------------------------------    
+    
     Citylist = server.re_citylist()
     year = server.re_year()
     month = server.re_month()
@@ -261,4 +267,4 @@ while running:
 #---------------------------------------------------------------------
 # 離開遊戲.
 pygame.quit()
-
+quit()
