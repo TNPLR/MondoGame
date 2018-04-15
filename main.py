@@ -197,7 +197,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             # 判斷攻擊對象
             if attack_mode and (not pause) and c_city != False:
-                if (attack_from[1] is not None) and (attack_from[1] != c_city) and (c_city.nation != my_nation) and (c_city.check_can_connect(attack_from[1].number)):
+                print(attack_from is not None)
+                print(attack_from != c_city.number)
+                print((c_city.nation != my_nation))
+                print((c_city.check_can_connect(attack_from)))    
+                if (attack_from is not None) and (attack_from != c_city.number) and (c_city.nation != my_nation) and (c_city.check_can_connect(attack_from)):
                     attack_to = c_city.number
                     server.attack_list_set(attack_from,attack_to)
                     attack_from = None
@@ -233,7 +237,7 @@ while running:
             # 顯示攻擊模式
         if attack_mode:           
             if attack_from is not None:
-                showFont(u"攻擊模式" + attack_from[1].name, 8, 98)
+                showFont(u"攻擊模式" + str(attack_from), 8, 98)
             else:
                 showFont(u"攻擊模式", 8, 74)
        

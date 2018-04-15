@@ -22,7 +22,7 @@ class World(object):
         Jinan = City(u"濟南",15,[20,7,16,10,18], 5909, 2607,u"中華人民共和國",[],38865000)
         Taiyuan = City(u"太原",16,[15,9,10,20], 5834, 2590,u"中華人民共和國",[],15247000)
         Nanning = City(u"南寧",17,[5,21], 5752, 2879,u"中華民國",[],14636000)
-        Shuzhou = City(u"徐州",18,[2,0,11,15], 5916, 2657,u"中華人民共和國",[],36080000)
+        Shuzhou = City(u"徐州",18,[2,10,11,15], 5916, 2657,u"中華人民共和國",[],36080000)
         Chengdou = City(u"成都",19,[9,4,21], 5696, 2727,u"中華民國",[],47437000)
         Baoding = City(u"保定",20,[1,7,16,15], 5880, 2568,u"中華人民共和國",[],28719000)
         Gueyang = City(u"貴陽",21,[19,4,13,17], 5745, 2773,u"中華民國",[],10174000)
@@ -32,7 +32,11 @@ class World(object):
                              ,Nanning,Gueyang,Chengdou])
         PRC = Nation("中華人民共和國",[Peking,Tianjin,Xian ,Zhengzhou,Jinan,Taiyuan,Shuzhou,Baoding])
         NationList = [ROC,PRC]
-        Citylist = [Nanjing,Hankou,Chungchin,Guangzhou,Fuzhou,Shanghai,Nanning,Gueyang,Nantshang,Peking,Tianjin,Shanghai,Xian ,Zhengzhou,Jinan,Taiyuan,Shuzhou,Chengdou,Baoding]
+        Citylist = [Nanjing,Hankou,Chungchin
+                             ,Nantshang,Hangzhou,Changsha
+                             ,Guangzhou,Fuzhou,Shanghai,Hefei
+                             ,Nanning,Gueyang,Chengdou,Peking,Tianjin
+                    ,Xian ,Zhengzhou,Jinan,Taiyuan,Shuzhou,Baoding]
         return NationList,Citylist
 class Nation:
     # diplomatic 外交1,2,3,4四位
@@ -78,10 +82,11 @@ class City:
     def list_connect(self):
         print(self.connect_list)
     def check_can_connect(self,number):
+        print("Check:Connect by ",str(number)," to ",str(self.number))
         for num in self.connect_list:
             if number == num:
                 return True
-            return False
+        return False
 #
 # sig_queue:
 # 伺服器訊號傳遞
@@ -216,9 +221,9 @@ class Server:
                             for nation_tmp2 in NationList:                        
                                 for cities_tmp2 in nation_tmp2.Citylist:
                                     if cities_tmp2.number == toN:
-                                        cities_tmp.nation = cities_tmp2.nation
-                                        nation_tmp2.append(cities_tmp2)
-                                        nation_tmp2.remove(cities_tmp2)
+                                        cities_tmp2.nation = cities_tmp.nation
+                                        nation_tmp.Citylist.append(cities_tmp2)
+                                        nation_tmp2.Citylist.remove(cities_tmp2)
                                         
                                         
             self.attack_list.clear()
@@ -260,7 +265,7 @@ class Server:
                 self.time_list[0] %= 12
                 self.time_list[2] += 1
             self.sync(self.time_list,self.NationList)
-            self.stop_queue.put(True)
+            #self.stop_queue.put(True)
             while True:
                 if not self.server_on:
                     print(sthread_print_append,"Server Stop")
