@@ -23,6 +23,16 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 BackGround = Background('PDFtoJPG.me-1 (1).jpg', [0,0])
 #-------------------------------------------------------------------------
+# 函數:印城市線條
+#-------------------------------------------------------------------------
+def printLinesOfCities():
+    global canvas,Citylist
+    for cities in Citylist:
+        for connects in cities.connect_list:
+            for cities2 in Citylist:
+                if cities2.number == connects:
+                    pygame.draw.line(canvas,[0,0,0],[cities.pos_x+BackGround.rect.left,cities.pos_y+BackGround.rect.top],[cities2.pos_x+BackGround.rect.left,cities2.pos_y+BackGround.rect.top])
+#-------------------------------------------------------------------------
 # 函數:印城市
 #-------------------------------------------------------------------------
 def printCity(city):
@@ -122,6 +132,7 @@ while running:
             lose = True
         elif tmp_nation == u"中華人民共和國":
             win = True
+    
     #---------------------------------------------------------------------
     # 判斷輸入.
     #---------------------------------------------------------------------
@@ -226,6 +237,7 @@ while running:
         showFont(u"按  Q  離開遊戲", 8, 2)
         showFont(u"按 ESC 回到遊戲", 8, 26)
     else:
+        printLinesOfCities()
         # 顯示所有城市
         printAllCity()
         # 顯示國家狀態
